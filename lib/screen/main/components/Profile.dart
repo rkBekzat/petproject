@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {
   // const Profile({Key key}) : super(key: key);
-
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +28,7 @@ class Profile extends StatelessWidget {
         Card(
           child: ListTile(
             leading: SvgPicture.asset('assets/message.svg'),
-            title: Text('example@example'),
+            title: Text(user.email!),
             trailing: SvgPicture.asset('assets/edit.svg'),
           ),
         ),
@@ -104,7 +105,10 @@ class Profile extends StatelessWidget {
         Card(
           child: ListTile(
             leading: SvgPicture.asset('assets/logout.svg'),
-            title: Text('Log out'),
+            title: ElevatedButton(
+              onPressed: () => FirebaseAuth.instance.signOut(),
+              child: Text('Log out'),
+            )
           ),
         )
       ],

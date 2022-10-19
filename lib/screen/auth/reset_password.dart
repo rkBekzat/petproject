@@ -5,6 +5,8 @@ import 'package:petproject/screen/auth/widgets/input.dart';
 class ResetPassword extends StatelessWidget {
   // const RegisterPage({Key key}) : super(key: key);
 
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +34,7 @@ class ResetPassword extends StatelessWidget {
                   margin: EdgeInsets.only(left: 5, bottom: 20, top: 0),
                   child: Text("Forgot password?", style: TextStyle(fontSize: 25, color: Colors.black),)
               ),
-              Input(text: "Email", iconPath: 'assets/message.svg',),
+              Input(text: "Email", iconPath: 'assets/message.svg', control: emailController,),
               Container(
                 margin: EdgeInsets.only(top: 13),
                 width: 300,

@@ -4,12 +4,15 @@ import 'package:flutter_svg/svg.dart';
 class Input extends StatefulWidget {
   // const Input({Key key}) : super(key: key);
 
+
   final String iconPath;
   final String text;
+  TextEditingController control;
 
   Input({
     required this.iconPath,
-    required this.text
+    required this.text,
+    required this.control,
   });
 
   @override
@@ -40,6 +43,7 @@ class _InputState extends State<Input> {
             onChanged: (String value) {
               user = value;
             },
+            controller: widget.control,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: widget.text,

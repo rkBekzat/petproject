@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petproject/screen/auth/registration.dart';
 import 'package:petproject/screen/auth/reset_password.dart';
 import 'package:petproject/screen/auth/widgets/input.dart';
+
+import '../../main.dart';
+import '../../utils/get_error.dart';
 
 class LogInPage extends StatefulWidget {
   @override
@@ -16,6 +20,33 @@ class _LogInPageState extends State<LogInPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  Future signIn() async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator(),)
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: usernameController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e){
+      print(e);
+
+      Utils.showSnackBar(e.message);
+    }
+    navigatorKey.currentState!.popUntil((route)=> route.isFirst);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +54,7 @@ class _LogInPageState extends State<LogInPage> {
       color: Color.fromRGBO(217, 210, 210, 100),
       child: Center(
         child: Container(
+
           width: 340,
           height: 337,
           decoration: BoxDecoration(
@@ -43,9 +75,9 @@ class _LogInPageState extends State<LogInPage> {
                     margin: EdgeInsets.only(left: 5, bottom: 27, top: 0),
                     child: Text("Login", style: TextStyle(fontSize: 35, color: Colors.black),)
                 ),
-              Input(text: 'username or email', iconPath: 'assets/user.svg',),
+              Input(text: 'username or email', iconPath: 'assets/user.svg',control: usernameController),
               SizedBox(height: 5,),
-              Input(text: 'password', iconPath: 'assets/block.svg',),
+              Input(text: 'password', iconPath: 'assets/block.svg', control: passwordController),
               Container(
                 margin: EdgeInsets.only(left: 165, bottom: 5),
                 child: TextButton(
@@ -62,9 +94,10 @@ class _LogInPageState extends State<LogInPage> {
                 width: 300,
                 height: 45,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromRGBO(0, 66, 255, 100)),
-                child: Center(
-                  child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
-                ),
+                  child: ElevatedButton(
+                    onPressed: signIn,
+                    child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+                  ),
               ),
               Container(
                 height: 20,
