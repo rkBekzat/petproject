@@ -72,7 +72,7 @@ class _LogInPageState extends State<LogInPage> {
           child: Column(
             children: [
                 Container(
-                    margin: EdgeInsets.only(left: 5, bottom: 27, top: 0),
+                    margin: EdgeInsets.only(left: 5, bottom: 25, top: 0),
                     child: Text("Login", style: TextStyle(fontSize: 35, color: Colors.black),)
                 ),
               Input(text: 'username or email', iconPath: 'assets/user.svg',control: usernameController),

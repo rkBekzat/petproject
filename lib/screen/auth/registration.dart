@@ -28,21 +28,24 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async {
+    print("START?");
     final isvalid = formKey.currentState!.validate();
-
+    print("checking valid");
     if(!isvalid) return
-
+    print("It's ok");
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => Center(child: CircularProgressIndicator(),)
     );
-
+    print("keep going");
     try {
+      print("start Init");
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
       );
+      print('ok');
     } on FirebaseAuthException catch (e){
       print(e);
 
@@ -59,7 +62,6 @@ class _RegisterPageState extends State<RegisterPage> {
       color: Color.fromRGBO(217, 210, 210, 100),
       child: Center(
         child: Container(
-          key: formKey,
           width: 340,
           height: 380,
           decoration: BoxDecoration(
@@ -74,7 +76,9 @@ class _RegisterPageState extends State<RegisterPage> {
               borderRadius: BorderRadius.all(Radius.circular(25))
           ),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical:20),
-          child: Column(
+          child: Form(
+            key: formKey,
+            child: Column(
             children: [
               Container(
                   margin: EdgeInsets.only(left: 5, bottom: 27, top: 0),
@@ -97,7 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ],
-          ),
+          ),),
         ),
       ),
         )
