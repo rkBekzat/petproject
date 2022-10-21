@@ -28,24 +28,18 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async {
-    print("START?");
     final isvalid = formKey.currentState!.validate();
-    print("checking valid");
     if(!isvalid) return
-    print("It's ok");
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => Center(child: CircularProgressIndicator(),)
     );
-    print("keep going");
     try {
-      print("start Init");
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
       );
-      print('ok');
     } on FirebaseAuthException catch (e){
       print(e);
 

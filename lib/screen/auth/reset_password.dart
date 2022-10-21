@@ -1,11 +1,43 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:petproject/screen/auth/widgets/input.dart';
+import 'package:petproject/utils/get_error.dart';
 
-class ResetPassword extends StatelessWidget {
+class ResetPassword extends StatefulWidget {
+  @override
+  State<ResetPassword> createState() => _ResetPasswordState();
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
   // const RegisterPage({Key key}) : super(key: key);
-
   TextEditingController emailController = TextEditingController();
+
+  Future reset() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child:  CircularProgressIndicator(),));
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: emailController.text.trim()
+      );
+      Utils.showSnackBar("Password reset email sent");
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } on FirebaseAuthException catch (e){
+      print(e);
+
+      Utils.showSnackBar(e.message);
+      Navigator.of(context).pop();
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +72,8 @@ class ResetPassword extends StatelessWidget {
                 width: 300,
                 height: 45,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromRGBO(0, 66, 255, 100)),
-                child: Center(
+                child: ElevatedButton(
+                  onPressed: reset,
                   child: Text("Submit", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
                 ),
               ),
