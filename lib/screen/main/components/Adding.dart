@@ -57,6 +57,7 @@ class _AddingState extends State<Adding> {
               ),
               child: ElevatedButton(
                 onPressed: (){
+                  print("ADDING: " + user.email!);
                   FirebaseFirestore.instance.collection(user.email!).add({'text':taskController.text, 'done':false});
                 },
                 child: Text('Add task', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),),
