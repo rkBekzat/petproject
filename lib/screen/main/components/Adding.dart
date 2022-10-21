@@ -1,7 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Adding extends StatelessWidget {
+class Adding extends StatefulWidget {
+  @override
+  State<Adding> createState() => _AddingState();
+}
+
+class _AddingState extends State<Adding> {
   // const Adding({Key key}) : super(key: key);
+  TextEditingController taskController = TextEditingController();
+  final user = FirebaseAuth.instance.currentUser!;
+
+  @override
+  void dispose() {
+    taskController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +42,7 @@ class Adding extends StatelessWidget {
               child: Text('Task', style: TextStyle(fontSize: 30),),
             ),
             TextField(
+              controller: taskController,
               decoration: InputDecoration(
                 hintText: 'Title'
               ),
@@ -39,7 +55,10 @@ class Adding extends StatelessWidget {
                 color: Color.fromRGBO(0, 66, 255, 100),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Center(
+              child: ElevatedButton(
+                onPressed: (){
+                  FirebaseFirestore.instance.collection(user.email!).add({'text':taskController.text, 'done':false});
+                },
                 child: Text('Add task', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),),
               ),
             )
