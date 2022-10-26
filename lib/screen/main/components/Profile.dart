@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {
   // const Profile({Key key}) : super(key: key);
+
   final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
