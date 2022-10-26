@@ -13,19 +13,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // const Main({Key key}) : super(key: key);
-  List<Task> to_do = [];
   final user = FirebaseAuth.instance.currentUser!;
-
-  void initFirbase() async{
-
-  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    // to_do.addAll(['buy milk', 'do Homework', 'do sport', 'learn new language', 'read the book']);
   }
 
   @override
@@ -50,7 +42,10 @@ class _HomeState extends State<Home> {
                       child: ListTile(
                         leading: SvgPicture.asset('assets/box.svg'),
                         title: Text(snapshot.data!.docs[index].get('text')),
-                        trailing: SvgPicture.asset('assets/rubbish.svg'),
+                        trailing: ElevatedButton.icon(
+                            onPressed: () => FirebaseFirestore.instance.collection(user.email!).doc(snapshot.data!.docs[index].id).delete(),
+                            icon: SvgPicture.asset('assets/rubbish.svg'),
+                            label: Text(''))
                       )
                   );
                 });
