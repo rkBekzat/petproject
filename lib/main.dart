@@ -7,6 +7,7 @@ import 'package:petproject/screen/auth/newpassword.dart';
 import 'package:petproject/screen/auth/reset_password.dart';
 
 import 'package:petproject/screen/auth/registration.dart';
+import 'package:petproject/screen/auth/verify.dart';
 import 'package:petproject/screen/main/main_sreen.dart';
 import 'package:petproject/utils/get_error.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
               return Center(child: Text('Something, wrong'),);
             }
             else if(snapshot.hasData){
-              return Main();
+              return VerifyPage();
             }
             else {
               return LogInPage();
