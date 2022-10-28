@@ -16,7 +16,6 @@ class _MainState extends State<Main> {
   int _selectedIndex = 0;
   static List<Widget> _pages = <Widget>[
     Home(),
-    Adding(),
     Profile(),
   ];
 
@@ -38,10 +37,6 @@ class _MainState extends State<Main> {
         items: [
           BottomNavigationBarItem(
               icon: SvgPicture.asset('assets/home.svg'),
-              label: ''
-          ),
-          BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/plusincircle.svg'),
               label: ''
           ),
           BottomNavigationBarItem(

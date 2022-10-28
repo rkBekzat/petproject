@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:petproject/model/task.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:petproject/screen/main/components/Adding.dart';
+import 'package:petproject/screen/main/components/Update.dart';
 
 
 class Home extends StatefulWidget {
@@ -20,10 +22,22 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    print("HOME: "+user.email!);
-    return Container(
+    // print("HOME: "+user.email!);
+    return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            showDialog(context: context, builder: (BuildContext context){
+              return Adding();
+            });
+          },
+          backgroundColor: Colors.lightBlueAccent,
+          child: Icon(Icons.add),
+        ),
+        body: Container(
       child: StreamBuilder(
           stream: FirebaseFirestore.instance.collection(user.email!).snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -41,7 +55,14 @@ class _HomeState extends State<Home> {
                       ),
                       child: ListTile(
                         leading: SvgPicture.asset('assets/box.svg'),
-                        title: Text(snapshot.data!.docs[index].get('text')),
+                        title: TextButton(
+                          onPressed: () {
+                            showDialog(context: context, builder: (BuildContext context){
+                              return Update(task: snapshot.data!.docs[index].get('text'), done: snapshot.data!.docs[index].get('done'), id: snapshot.data!.docs[index].id,);
+                            });
+                          },
+                            child: Text(snapshot.data!.docs[index].get('text')),
+                            ),
                         trailing: ElevatedButton.icon(
                             onPressed: () => FirebaseFirestore.instance.collection(user.email!).doc(snapshot.data!.docs[index].id).delete(),
                             icon: SvgPicture.asset('assets/rubbish.svg'),
@@ -50,6 +71,6 @@ class _HomeState extends State<Home> {
                   );
                 });
           }
-    ));
+    )));
   }
 }
