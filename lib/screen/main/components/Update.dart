@@ -46,6 +46,9 @@ class _UpdateState extends State<Update> {
           onPressed: (){
             print("Edit: " + user.email!);
             FirebaseFirestore.instance.collection(user.email!).doc(widget.id).update({'text':taskController.text, 'done':widget.done});
+            if(taskController.text.length == 0){
+              FirebaseFirestore.instance.collection(user.email!).doc(widget.id).delete();
+            }
             Navigator.of(context).pop();
           },
           child: Text('Edit task', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),),

@@ -64,6 +64,9 @@ class _HomeState extends State<Home> {
                             child: Text(snapshot.data!.docs[index].get('text')),
                             ),
                         trailing: ElevatedButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+                            ),
                             onPressed: () => FirebaseFirestore.instance.collection(user.email!).doc(snapshot.data!.docs[index].id).delete(),
                             icon: SvgPicture.asset('assets/rubbish.svg'),
                             label: Text(''))

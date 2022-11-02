@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -13,10 +14,16 @@ class Profile extends StatelessWidget {
       children: [
         SizedBox(height: 15,),
         Center(
-          child: CircleAvatar(
-            radius: 50,
-            backgroundColor: Color.fromRGBO(140, 88, 88, 100),
-          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 50,
+                backgroundColor: Color.fromRGBO(140, 88, 88, 100),
+              ),
+              IconButton(onPressed: () {}, icon: SvgPicture.asset('assets/camera.svg')),
+            ],
+          ) 
         ),
         SizedBox(height: 30,),
         Card(

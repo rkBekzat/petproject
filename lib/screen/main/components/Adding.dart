@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:petproject/utils/get_error.dart';
 
 class Adding extends StatefulWidget {
   @override
@@ -32,7 +33,13 @@ class _AddingState extends State<Adding> {
           ElevatedButton(
             onPressed: (){
               print("ADDING: " + user.email!);
-              FirebaseFirestore.instance.collection(user.email!).add({'text':taskController.text, 'done':false});
+              if(taskController.text.length == 0){
+                Utils.showSnackBar("Empty task not accept");
+              }
+              else {
+                FirebaseFirestore.instance.collection(user.email!).add(
+                    {'text': taskController.text, 'done': false});
+              }
               Navigator.of(context).pop();
             },
             child: Text('Add task', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),),
